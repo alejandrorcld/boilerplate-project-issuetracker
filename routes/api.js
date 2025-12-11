@@ -12,9 +12,16 @@ module.exports = function (app) {
       
       try {
         const issues = getIssues(project, filters);
-        // Ensure dates are strings
+        // Format each issue with consistent field order
         const formattedIssues = issues.map(issue => ({
-          ...issue,
+          _id: issue._id,
+          issue_title: issue.issue_title,
+          issue_text: issue.issue_text,
+          created_by: issue.created_by,
+          assigned_to: issue.assigned_to,
+          status_text: issue.status_text,
+          priority: issue.priority,
+          open: issue.open,
           created_on: typeof issue.created_on === 'string' ? issue.created_on : issue.created_on.toISOString(),
           updated_on: typeof issue.updated_on === 'string' ? issue.updated_on : issue.updated_on.toISOString()
         }));
@@ -43,9 +50,16 @@ module.exports = function (app) {
           priority: priority || ''
         });
         
-        // Ensure dates are strings in response
+        // Format response with specific field order
         const response = {
-          ...newIssue,
+          _id: newIssue._id,
+          issue_title: newIssue.issue_title,
+          issue_text: newIssue.issue_text,
+          created_by: newIssue.created_by,
+          assigned_to: newIssue.assigned_to,
+          status_text: newIssue.status_text,
+          priority: newIssue.priority,
+          open: newIssue.open,
           created_on: newIssue.created_on.toISOString(),
           updated_on: newIssue.updated_on.toISOString()
         };
