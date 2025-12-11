@@ -17,13 +17,13 @@ module.exports = function (app) {
           _id: issue._id,
           issue_title: issue.issue_title,
           issue_text: issue.issue_text,
+          created_on: typeof issue.created_on === 'string' ? issue.created_on : issue.created_on.toISOString(),
+          updated_on: typeof issue.updated_on === 'string' ? issue.updated_on : issue.updated_on.toISOString(),
           created_by: issue.created_by,
           assigned_to: issue.assigned_to,
-          status_text: issue.status_text,
-          priority: issue.priority,
           open: issue.open,
-          created_on: typeof issue.created_on === 'string' ? issue.created_on : issue.created_on.toISOString(),
-          updated_on: typeof issue.updated_on === 'string' ? issue.updated_on : issue.updated_on.toISOString()
+          status_text: issue.status_text,
+          priority: issue.priority
         }));
         res.json(formattedIssues);
       } catch (err) {
@@ -50,7 +50,7 @@ module.exports = function (app) {
           priority: priority || ''
         });
         
-        // Format response with specific field order
+        // Format response with specific field order - include all fields
         const response = {
           _id: newIssue._id,
           issue_title: newIssue.issue_title,
@@ -59,9 +59,9 @@ module.exports = function (app) {
           assigned_to: newIssue.assigned_to,
           status_text: newIssue.status_text,
           priority: newIssue.priority,
-          open: newIssue.open,
           created_on: newIssue.created_on.toISOString(),
-          updated_on: newIssue.updated_on.toISOString()
+          updated_on: newIssue.updated_on.toISOString(),
+          open: newIssue.open
         };
         
         res.json(response);
