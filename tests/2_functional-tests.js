@@ -16,8 +16,7 @@ suite('Functional Tests', function() {
         issue_text: 'Test description',
         created_by: 'User',
         assigned_to: 'Admin',
-        status_text: 'in progress',
-        priority: 'high'
+        status_text: 'in progress'
       })
       .end(function(err, res) {
         assert.equal(res.status, 200);
@@ -26,7 +25,6 @@ suite('Functional Tests', function() {
         assert.equal(res.body.created_by, 'User');
         assert.equal(res.body.assigned_to, 'Admin');
         assert.equal(res.body.status_text, 'in progress');
-        assert.equal(res.body.priority, 'high');
         assert.equal(res.body.open, true);
         assert.property(res.body, '_id');
         assert.property(res.body, 'created_on');
@@ -50,8 +48,7 @@ suite('Functional Tests', function() {
         assert.equal(res.body.issue_text, 'Text only');
         assert.equal(res.body.created_by, 'User');
         assert.equal(res.body.assigned_to, '');
-        assert.equal(res.body.status_text, 'open');
-        assert.equal(res.body.priority, '');
+        assert.equal(res.body.status_text, '');
         assert.property(res.body, '_id');
         done();
       });
@@ -155,8 +152,7 @@ suite('Functional Tests', function() {
           .put('/api/issues/test')
           .send({
             _id: issueId,
-            status_text: 'in progress',
-            priority: 'critical'
+            status_text: 'in progress'
           })
           .end(function(err, res) {
             assert.equal(res.status, 200);

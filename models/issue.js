@@ -4,7 +4,7 @@
 let issues = {};
 
 class Issue {
-  constructor(project, title, text, createdBy, assignedTo = '', status_text = 'open', priority = '') {
+  constructor(project, title, text, createdBy, assignedTo = '', status_text = '') {
     this._id = require('crypto').randomBytes(12).toString('hex');
     this.issue_title = title;
     this.issue_text = text;
@@ -12,7 +12,6 @@ class Issue {
     this.assigned_to = assignedTo;
     this.status_text = status_text;
     this.open = true;
-    this.priority = priority;
     this.created_on = new Date();
     this.updated_on = new Date();
   }
@@ -35,8 +34,7 @@ function createIssue(project, issueData) {
     issueData.issue_text,
     issueData.created_by,
     issueData.assigned_to || '',
-    issueData.status_text || 'open',
-    issueData.priority || ''
+    issueData.status_text || ''
   );
   
   issues[project].push(newIssue);

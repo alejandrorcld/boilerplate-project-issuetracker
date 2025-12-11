@@ -22,8 +22,7 @@ module.exports = function (app) {
           created_by: issue.created_by,
           assigned_to: issue.assigned_to,
           open: issue.open,
-          status_text: issue.status_text,
-          priority: issue.priority
+          status_text: issue.status_text
         }));
         res.json(formattedIssues);
       } catch (err) {
@@ -33,7 +32,7 @@ module.exports = function (app) {
     
     .post(function (req, res) {
       let project = req.params.project;
-      const { issue_title, issue_text, created_by, assigned_to, status_text, priority } = req.body;
+      const { issue_title, issue_text, created_by, assigned_to, status_text } = req.body;
       
       // Validate required fields
       if (!issue_title || !issue_text || !created_by) {
@@ -46,11 +45,10 @@ module.exports = function (app) {
           issue_text,
           created_by,
           assigned_to: assigned_to || '',
-          status_text: status_text || 'open',
-          priority: priority || ''
+          status_text: status_text || ''
         });
         
-        // Format response with specific field order - include all fields
+        // Format response with specific field order
         const response = {
           _id: newIssue._id,
           issue_title: newIssue.issue_title,
@@ -58,7 +56,6 @@ module.exports = function (app) {
           created_by: newIssue.created_by,
           assigned_to: newIssue.assigned_to,
           status_text: newIssue.status_text,
-          priority: newIssue.priority,
           created_on: newIssue.created_on.toISOString(),
           updated_on: newIssue.updated_on.toISOString(),
           open: newIssue.open
@@ -72,7 +69,7 @@ module.exports = function (app) {
     
     .put(function (req, res) {
       let project = req.params.project;
-      const { _id, issue_title, issue_text, created_by, assigned_to, status_text, priority, open } = req.body;
+      const { _id, issue_title, issue_text, created_by, assigned_to, status_text, open } = req.body;
       
       // Validate _id is present
       if (!_id) {
@@ -101,10 +98,6 @@ module.exports = function (app) {
       }
       if (status_text !== undefined) {
         updateFields.status_text = status_text;
-        hasUpdates = true;
-      }
-      if (priority !== undefined) {
-        updateFields.priority = priority;
         hasUpdates = true;
       }
       if (open !== undefined) {
