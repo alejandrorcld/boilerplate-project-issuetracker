@@ -12,7 +12,13 @@ module.exports = function (app) {
       
       try {
         const issues = getIssues(project, filters);
-        res.json(issues);
+        // Ensure dates are strings
+        const formattedIssues = issues.map(issue => ({
+          ...issue,
+          created_on: typeof issue.created_on === 'string' ? issue.created_on : issue.created_on.toISOString(),
+          updated_on: typeof issue.updated_on === 'string' ? issue.updated_on : issue.updated_on.toISOString()
+        }));
+        res.json(formattedIssues);
       } catch (err) {
         res.status(500).json({ error: err.message });
       }
@@ -37,7 +43,14 @@ module.exports = function (app) {
           priority: priority || ''
         });
         
-        res.json(newIssue);
+        // Ensure dates are strings in response
+        const response = {
+          ...newIssue,
+          created_on: newIssue.created_on.toISOString(),
+          updated_on: newIssue.updated_on.toISOString()
+        };
+        
+        res.json(response);
       } catch (err) {
         res.status(500).json({ error: err.message });
       }

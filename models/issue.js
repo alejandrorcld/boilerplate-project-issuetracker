@@ -54,9 +54,11 @@ function getIssues(project, filters = {}) {
     if (filters[filter] !== undefined && filters[filter] !== '') {
       result = result.filter(issue => {
         if (filter === 'open') {
-          return issue.open === (filters[filter] === 'true');
+          // Handle string 'true'/'false' from query params
+          const filterValue = filters[filter] === 'true' || filters[filter] === true;
+          return issue.open === filterValue;
         }
-        return issue[filter] == filters[filter];
+        return String(issue[filter]) === String(filters[filter]);
       });
     }
   }
