@@ -16,7 +16,7 @@ suite('Functional Tests', function() {
         issue_text: 'Test description',
         created_by: 'User',
         assigned_to: 'Admin',
-        status: 'in progress',
+        status_text: 'in progress',
         priority: 'high'
       })
       .end(function(err, res) {
@@ -25,7 +25,7 @@ suite('Functional Tests', function() {
         assert.equal(res.body.issue_text, 'Test description');
         assert.equal(res.body.created_by, 'User');
         assert.equal(res.body.assigned_to, 'Admin');
-        assert.equal(res.body.status, 'in progress');
+        assert.equal(res.body.status_text, 'in progress');
         assert.equal(res.body.priority, 'high');
         assert.equal(res.body.open, true);
         assert.property(res.body, '_id');
@@ -50,7 +50,7 @@ suite('Functional Tests', function() {
         assert.equal(res.body.issue_text, 'Text only');
         assert.equal(res.body.created_by, 'User');
         assert.equal(res.body.assigned_to, '');
-        assert.equal(res.body.status, 'open');
+        assert.equal(res.body.status_text, 'open');
         assert.equal(res.body.priority, '');
         assert.property(res.body, '_id');
         done();
@@ -128,7 +128,7 @@ suite('Functional Tests', function() {
           .put('/api/issues/test')
           .send({
             _id: issueId,
-            status: 'resolved'
+            status_text: 'resolved'
           })
           .end(function(err, res) {
             assert.equal(res.status, 200);
@@ -155,7 +155,7 @@ suite('Functional Tests', function() {
           .put('/api/issues/test')
           .send({
             _id: issueId,
-            status: 'in progress',
+            status_text: 'in progress',
             priority: 'critical'
           })
           .end(function(err, res) {
@@ -213,7 +213,7 @@ suite('Functional Tests', function() {
       .put('/api/issues/test')
       .send({
         _id: 'invalidid',
-        status: 'resolved'
+        status_text: 'resolved'
       })
       .end(function(err, res) {
         assert.equal(res.status, 200);

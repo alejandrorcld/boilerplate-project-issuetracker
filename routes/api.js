@@ -20,7 +20,7 @@ module.exports = function (app) {
     
     .post(function (req, res) {
       let project = req.params.project;
-      const { issue_title, issue_text, created_by, assigned_to, status, priority } = req.body;
+      const { issue_title, issue_text, created_by, assigned_to, status_text, priority } = req.body;
       
       // Validate required fields
       if (!issue_title || !issue_text || !created_by) {
@@ -33,7 +33,7 @@ module.exports = function (app) {
           issue_text,
           created_by,
           assigned_to: assigned_to || '',
-          status: status || 'open',
+          status_text: status_text || 'open',
           priority: priority || ''
         });
         
@@ -45,7 +45,7 @@ module.exports = function (app) {
     
     .put(function (req, res) {
       let project = req.params.project;
-      const { _id, issue_title, issue_text, created_by, assigned_to, status, priority, open } = req.body;
+      const { _id, issue_title, issue_text, created_by, assigned_to, status_text, priority, open } = req.body;
       
       // Validate _id is present
       if (!_id) {
@@ -72,8 +72,8 @@ module.exports = function (app) {
         updateFields.assigned_to = assigned_to;
         hasUpdates = true;
       }
-      if (status !== undefined) {
-        updateFields.status = status;
+      if (status_text !== undefined) {
+        updateFields.status_text = status_text;
         hasUpdates = true;
       }
       if (priority !== undefined) {

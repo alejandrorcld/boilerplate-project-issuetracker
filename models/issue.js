@@ -4,13 +4,13 @@
 let issues = {};
 
 class Issue {
-  constructor(project, title, text, createdBy, assignedTo = '', status = 'open', priority = '') {
+  constructor(project, title, text, createdBy, assignedTo = '', status_text = 'open', priority = '') {
     this._id = require('crypto').randomBytes(12).toString('hex');
     this.issue_title = title;
     this.issue_text = text;
     this.created_by = createdBy;
     this.assigned_to = assignedTo;
-    this.status = status;
+    this.status_text = status_text;
     this.open = true;
     this.priority = priority;
     this.created_on = new Date();
@@ -35,7 +35,7 @@ function createIssue(project, issueData) {
     issueData.issue_text,
     issueData.created_by,
     issueData.assigned_to || '',
-    issueData.status || 'open',
+    issueData.status_text || 'open',
     issueData.priority || ''
   );
   
@@ -76,7 +76,12 @@ function updateIssue(project, issueId, updates) {
   for (let field in updates) {
     if (field === 'open') {
       issue[field] = updates[field] === 'false' ? false : true;
-    } else if (issue.hasOwnProperty(field) || field === 'issue_title' || field === 'issue_text' || field === 'created_by' || field === 'assigned_to' || field === 'status' || field === 'priority') {
+    } else if (field === 'status' && updates[field] !== undefined) {
+      // Map 'status' to 'status_text'
+      issue.status_text = updates[field];
+    } else if (field === 'status_text' && updates[field] !== undefined) {
+      issue.status_text = updates[field];
+    } else if (issue.hasOwnProperty(field) || field === 'issue_title' || field === 'issue_text' || field === 'created_by' || field === 'assigned_to' || field === 'priority') {
       issue[field] = updates[field];
     }
   }
