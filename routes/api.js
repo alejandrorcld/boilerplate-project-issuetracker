@@ -86,17 +86,17 @@ module.exports = function (app) {
       }
       
       if (!hasUpdates) {
-        return res.json({ error: 'no update field(s) sent', _id });
+        return res.json({ error: 'no update field(s) sent', '_id': _id });
       }
       
       try {
         const updatedIssue = updateIssue(project, _id, updateFields);
         
         if (!updatedIssue) {
-          return res.json({ error: 'could not update', _id });
+          return res.json({ error: 'could not update', '_id': _id });
         }
         
-        res.json({ success: 'successfully updated', _id });
+        res.json({ result: 'successfully updated', '_id': _id });
       } catch (err) {
         res.status(500).json({ error: err.message });
       }
@@ -115,10 +115,10 @@ module.exports = function (app) {
         const deleted = deleteIssue(project, _id);
         
         if (!deleted) {
-          return res.json({ error: 'could not delete', _id });
+          return res.json({ error: 'could not delete', '_id': _id });
         }
         
-        res.json({ success: 'successfully deleted', _id });
+        res.json({ result: 'successfully deleted', '_id': _id });
       } catch (err) {
         res.status(500).json({ error: err.message });
       }
